@@ -3,21 +3,26 @@
  * 心理测试网站主样式表
  */
 
-/* CSS 变量（理想城市 · 主色 #5654b8） */
+/* CSS 变量（理想城市 · 文档指定背景色 #5654b8） */
 :root {
     --primary-color: #5654b8;
     --primary-dark: #4543a0;
     --primary-mid: #7a78c9;
     --primary-soft: #d8d7f0;
     --secondary-color: #d8d7f0;
-    --background-color: #f5f4fb;
+    --background-color: #5654b8;
+    --background-gradient: linear-gradient(165deg, #5654b8 0%, #4a48a8 55%, #4543a0 100%);
+    --surface-color: #ffffff;
     --surface-tint: #eeedf8;
     --surface-hover: #e4e3f5;
     --text-color: #333333;
     --text-secondary: #666666;
+    --text-on-bg: rgba(255, 255, 255, 0.96);
+    --text-on-bg-muted: rgba(255, 255, 255, 0.78);
     --white: #FFFFFF;
-    --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-    --shadow-hover: 0 8px 30px rgba(0, 0, 0, 0.12);
+    --shadow: 0 6px 24px rgba(0, 0, 0, 0.12);
+    --shadow-hover: 0 10px 36px rgba(0, 0, 0, 0.18);
+    --card-shadow: 0 8px 32px rgba(0, 0, 0, 0.14);
     --border-radius: 12px;
     --font-family: "PingFang SC", "Microsoft YaHei", -apple-system, BlinkMacSystemFont, sans-serif;
     --max-width: 800px;
@@ -1097,75 +1102,167 @@ _:future,
     }
 }
 
-/* ========== 理想城市首页：与答题页一致的 #f5f4fb 背景 ========== */
-body.page-home {
+/* ========== 理想城市全站：文档背景色 #5654b8 ========== */
+body.page-home,
+body.page-quiz,
+body.page-result {
+    background: var(--background-gradient);
     background-color: var(--background-color);
+    min-height: 100vh;
+}
+
+body.page-home main.container,
+body.page-quiz main.container,
+body.page-result main.container {
+    background: transparent;
+}
+
+body.page-home .navbar,
+body.page-quiz .navbar,
+body.page-result .navbar {
+    background: var(--white);
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.12);
 }
 
 body.page-home main.container {
-    background-color: var(--background-color);
     padding-top: 8px;
     padding-bottom: 36px;
 }
 
-body.page-home .navbar {
-    background: var(--white);
-    box-shadow: 0 2px 14px rgba(0, 0, 0, 0.07);
-}
-
 body.page-home .home-surface-card.card {
-    background: var(--white);
-    border: 1px solid rgba(86, 84, 184, 0.12);
-    box-shadow: var(--shadow);
+    background: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: var(--card-shadow);
 }
 
 body.page-home .home-stats-strip {
-    background: var(--white);
-    border: 1px solid rgba(86, 84, 184, 0.12);
-    box-shadow: var(--shadow);
+    background: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+    box-shadow: var(--card-shadow);
 }
 
 body.page-home .home-types-heading {
-    color: var(--text-color);
-    text-shadow: none;
+    color: var(--text-on-bg);
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.15);
     font-weight: 600;
 }
 
 body.page-home #types-preview .type-card {
-    background: var(--white);
-    border: 1px solid #f0f0f0;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    background: var(--surface-color);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: var(--card-shadow);
 }
 
 body.page-home #types-preview .carousel-btn {
-    border: 1px solid rgba(86, 84, 184, 0.22);
+    background: var(--white);
+    border: 1px solid rgba(86, 84, 184, 0.25);
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
 }
 
 body.page-home #types-preview .carousel-dot {
-    background: #ddd;
+    background: rgba(255, 255, 255, 0.45);
 }
 
 body.page-home #types-preview .carousel-dot.active {
-    background: var(--primary-color);
-    box-shadow: none;
+    background: var(--white);
+    box-shadow: 0 0 0 2px rgba(255, 255, 255, 0.35);
 }
 
 body.page-home .site-footer.site-footer--home {
     margin-top: 0;
     padding: 36px 20px 40px;
     text-align: center;
-    background: linear-gradient(to bottom, transparent, rgba(86, 84, 184, 0.06));
-    border-top: 1px solid rgba(86, 84, 184, 0.12);
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
 }
 
 body.page-home .site-footer-line {
-    color: var(--text-secondary);
+    color: var(--text-on-bg-muted);
 }
 
 body.page-home .site-footer-brand {
-    color: var(--primary-dark);
+    color: var(--text-on-bg);
 }
 
 body.page-home .site-footer-sub {
-    color: #999;
+    color: rgba(255, 255, 255, 0.62);
+}
+
+/* 答题页 */
+body.page-quiz main.container {
+    padding-top: 12px;
+    padding-bottom: 40px;
+}
+
+body.page-quiz .quiz-content-card {
+    background: var(--surface-color);
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+body.page-quiz .quiz-progress-card {
+    background: var(--surface-color);
+    box-shadow: var(--card-shadow);
+    border: 1px solid rgba(255, 255, 255, 0.35);
+}
+
+/* 结果页 */
+body.page-result main.container {
+    padding-top: 12px;
+    padding-bottom: 40px;
+}
+
+body.page-result main.container > h2,
+body.page-result #dimension-details > h2,
+body.page-result #deep-analysis > h2 {
+    color: var(--text-on-bg) !important;
+    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.12);
+}
+
+body.page-result .result-chart-container {
+    background: linear-gradient(135deg, #ffffff 0%, #eeedf8 100%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: var(--card-shadow) !important;
+}
+
+body.page-result .action-buttons .btn-primary {
+    background: var(--white);
+    color: var(--primary-dark);
+    border: none;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+body.page-result .action-buttons .btn-primary:hover {
+    background: #f8f7ff;
+    color: var(--primary-color);
+}
+
+body.page-result .action-buttons .btn-secondary,
+body.page-result .action-buttons a.btn-secondary {
+    background: rgba(255, 255, 255, 0.14);
+    color: var(--white);
+    border: 2px solid rgba(255, 255, 255, 0.55);
+}
+
+body.page-result .action-buttons .btn-secondary:hover,
+body.page-result .action-buttons a.btn-secondary:hover {
+    background: rgba(255, 255, 255, 0.24);
+    color: var(--white);
+}
+
+body.page-result .site-footer--result {
+    background: transparent;
+    border-top: 1px solid rgba(255, 255, 255, 0.22);
+}
+
+body.page-result .site-footer--result .site-footer-line {
+    color: var(--text-on-bg-muted);
+}
+
+body.page-result .site-footer--result .site-footer-brand {
+    color: var(--text-on-bg);
+}
+
+body.page-result .site-footer--result .site-footer-sub {
+    color: rgba(255, 255, 255, 0.62);
 }

@@ -25,7 +25,7 @@
 
     <main class="container">
         <div class="fade-in" style="margin: 0; text-align: center;">
-            <div style="width: 100%; max-width: 1024px; margin: 0 auto; border-radius: 0 0 24px 24px; overflow: hidden; line-height: 0; background: #f5f4fb;">
+            <div style="width: 100%; max-width: 1024px; margin: 0 auto; border-radius: 0 0 24px 24px; overflow: hidden; line-height: 0; background: transparent;">
                 <picture>
                     <source type="image/webp" srcset="assets/elements/理想城市首页.webp?v=5">
                     <img src="assets/elements/理想城市首页.png?v=5" alt="你最适合居住的城市？" style="width: 100%; height: auto; display: block;" loading="eager" fetchpriority="high" decoding="async">
@@ -159,7 +159,7 @@
                 const desc = (type.short_desc || []).join(' ');
                 return `
                     <div class="type-card">
-                        <div class="type-card-icon" style="background: #eeedf8; box-shadow: 0 4px 14px rgba(0,0,0,0.07), inset 0 0 0 1px rgba(86,84,184,0.12);">
+                        <div class="type-card-icon" style="background: var(--surface-tint); box-shadow: 0 4px 14px rgba(0,0,0,0.07), inset 0 0 0 1px rgba(86,84,184,0.12);">
                             ${pic}
                         </div>
                         <h3>${type.city_type_name}</h3>
@@ -206,7 +206,7 @@
                         font-size: 0.72rem;
                         padding: 3px 10px;
                         border-radius: 12px;
-                        background: #eeedf8;
+                        background: var(--surface-tint);
                         color: #4543a0;
                         font-weight: 600;
                     }

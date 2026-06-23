@@ -156,7 +156,7 @@ const DefaultUIConfig = {
     theme: 'default',
     primaryColor: '#5654b8',
     secondaryColor: '#d8d7f0',
-    backgroundColor: '#f5f4fb',
+    backgroundColor: '#5654b8',
     fontFamily: '"PingFang SC", "Microsoft YaHei", sans-serif',
     borderRadius: '12px',
     maxWidth: '800px'
