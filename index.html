@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="format-detection" content="telephone=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="description" content="起源研究社心理测试 - 你最适合居住的城市？发现你的城市偏好密码">
+    <meta name="keywords" content="心理测试,城市测试,居住城市,人环境匹配,城市心理学">
+    <title>起源研究社 - 你最适合居住的城市</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preload" as="image" href="assets/elements/理想城市首页.webp?v=5" type="image/webp">
+    <script src="js/deploy-config.js"></script>
+</head>
+<body class="page-home">
+    <nav class="navbar">
+        <div class="container">
+            <a href="index.html" class="logo">理想城市</a>
+            <ul class="nav-links">
+                <li><a href="javascript:void(0)" class="active" onclick="navigateWithFallback('catalog', this)">测试合集</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <div class="fade-in" style="margin: 0; text-align: center;">
+            <div style="width: 100%; max-width: 1024px; margin: 0 auto; border-radius: 0 0 24px 24px; overflow: hidden; line-height: 0; background: #f5f4fb;">
+                <picture>
+                    <source type="image/webp" srcset="assets/elements/理想城市首页.webp?v=5">
+                    <img src="assets/elements/理想城市首页.png?v=5" alt="你最适合居住的城市？" style="width: 100%; height: auto; display: block;" loading="eager" fetchpriority="high" decoding="async">
+                </picture>
+            </div>
+        </div>
+
+        <div style="text-align: center; margin: -24px 0 32px; position: relative; z-index: 10;">
+            <a href="quiz.html" id="start-btn" style="display: inline-block; line-height: 0; cursor: pointer; transition: transform 0.2s ease;">
+                <picture>
+                    <source type="image/webp" srcset="assets/elements/开始测试按钮.webp?v=5">
+                    <img src="assets/elements/开始测试按钮.png?v=5" alt="开始测试" style="max-width: 320px; width: 78%; height: auto; display: block; margin: 0 auto; filter: drop-shadow(0 6px 25px rgba(86, 84, 184, 0.4));" loading="eager" decoding="async">
+                </picture>
+            </a>
+        </div>
+
+        <div class="card fade-in home-surface-card" style="margin-top: 24px; padding: 28px;">
+            <p style="font-size: 0.95rem; line-height: 1.9; color: #333; margin: 0 0 16px; text-align: left;">
+                每个人心中都藏着一座<span style="color: #4543a0; font-weight: 600;">理想城市的轮廓</span>——它源于你如何定义成功、如何渴望生活。在人生的旅途中，我们往往被某种特定类型的城市深深吸引。
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.9; color: #333; margin: 0 0 16px; text-align: left;">
+                本测试基于<span style="color: #4543a0; font-weight: 600;">城市心理学与环境行为学中的「人-环境匹配」理论</span>，通过一系列态度量表和情景选择，帮助你发现自己在城市生活中最看重的核心维度。
+            </p>
+            <p style="font-size: 0.95rem; line-height: 1.8; color: #333; margin: 0; text-align: center; font-weight: 500;">
+                了解你的<span style="color: #4543a0; font-weight: 600;">「城市偏好密码」</span>，让每一次选择都更靠近你想要的生活。
+            </p>
+        </div>
+
+        <div class="home-stats-strip" style="margin-top: 20px; padding: 18px 24px; border-radius: 16px; display: flex; justify-content: space-between; flex-wrap: wrap;">
+            <div style="flex: 1; text-align: center; position: relative;">
+                <div style="font-size: 0.75rem; color: #999; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">题目总数</div>
+                <span style="font-size: 1.4rem; color: #4543a0; font-weight: 700;" id="question-count">-</span>
+                <span style="font-size: 0.85rem; color: #5654b8; font-weight: 500; margin-left: 2px;">题</span>
+            </div>
+            <div style="width: 1px; background: linear-gradient(to bottom, transparent, rgba(86,84,184,0.28), transparent); margin: 0 16px;"></div>
+            <div style="flex: 1; text-align: center;">
+                <div style="font-size: 0.75rem; color: #999; margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px;">预计时长</div>
+                <span style="font-size: 1.4rem; color: #4543a0; font-weight: 700;">2-3</span>
+                <span style="font-size: 0.85rem; color: #5654b8; font-weight: 500; margin-left: 2px;">分钟</span>
+            </div>
+        </div>
+
+        <div class="fade-in" style="margin-top: 28px;">
+            <h2 class="home-types-heading" style="text-align: center; font-size: 1.1rem; margin-bottom: 20px;">八种理想城市类型</h2>
+            <div id="types-preview"></div>
+        </div>
+    </main>
+
+    <footer class="site-footer site-footer--home">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <p class="site-footer-line" style="font-size: 0.9rem; margin: 0 0 8px;">
+                <span class="site-footer-brand" style="font-weight: 600;">心理测试</span> © 2026 起源研究社 Origin Lab
+            </p>
+            <p class="site-footer-sub" style="font-size: 0.75rem; margin: 0; line-height: 1.6;">
+                保留所有权利 | 仅供娱乐参考，不构成专业建议
+            </p>
+        </div>
+    </footer>
+
+    <script src="js/utils.js"></script>
+    <script>
+        const DEFAULT_RESULT_TYPES_FALLBACK = [
+            { type_name: '奋斗型', city_type_name: '野心竞技场', representative_cities: '深圳、上海', keywords: ['高压高回报', '职业成长'], short_desc: ['「年轻不拼，更待何时」', '「机会留给不睡觉的人」'] },
+            { type_name: '平衡型', city_type_name: '理想慢城', representative_cities: '杭州、成都', keywords: ['工作生活平衡', '小确幸'], short_desc: ['「下班后的生活才是人生」', '「赚钱和快乐可以兼得」'] },
+            { type_name: '文化型', city_type_name: '文脉栖息地', representative_cities: '南京、苏州', keywords: ['历史文艺', '精神角落'], short_desc: ['「走在街上都是故事」', '「书店和剧场是我的精神角落」'] },
+            { type_name: '自然型', city_type_name: '山海治愈所', representative_cities: '珠海、厦门', keywords: ['自然环境', '身心健康'], short_desc: ['「推开窗就是风景」', '「在城市里也能听见风声」'] },
+            { type_name: '社交型', city_type_name: '烟火不夜城', representative_cities: '长沙、重庆', keywords: ['烟火气', '夜生活'], short_desc: ['「夜越深，越有趣」', '「一个人不叫吃饭，叫填饱」'] },
+            { type_name: '自由型', city_type_name: '流浪者驿站', representative_cities: '昆明、大理', keywords: ['来去自由', '体验至上'], short_desc: ['「别问我待多久」', '「城市是地图，不是牢笼」'] },
+            { type_name: '家庭型', city_type_name: '安家根据地', representative_cities: '无锡、佛山', keywords: ['家庭优先', '安稳扎根'], short_desc: ['「为了下一代」', '「归属感比机会更重要」'] },
+            { type_name: '探索型', city_type_name: '机遇试验田', representative_cities: '合肥、武汉', keywords: ['新兴产业', '跨界可能'], short_desc: ['「新东西都在这里首发」', '「失败也是一种经历」'] }
+        ];
+
+        const CITY_ASSET_VERSION = '5';
+
+        function cityTypePreviewPictureHtml(typeName) {
+            const enc = encodeURIComponent(typeName);
+            const v = CITY_ASSET_VERSION;
+            const safeAlt = String(typeName).replace(/"/g, '&quot;');
+            return '<picture><source type="image/webp" srcset="assets/persona/' + enc + '.webp?v=' + v + '">' +
+                '<img src="assets/persona/' + enc + '.png?v=' + v + '" alt="' + safeAlt + '" loading="lazy" decoding="async"></picture>';
+        }
+
+        async function loadQuizData() {
+            try {
+                let quizData = StorageUtil.get(StorageKeys.QUIZ_DATA);
+
+                if (quizData && !isPerfectCityQuizData(quizData)) {
+                    console.warn('首页：检测到非「理想城市」题库缓存，已清空题库与答题进度');
+                    StorageUtil.remove(StorageKeys.QUIZ_DATA);
+                    StorageUtil.clearQuizProgress();
+                    quizData = null;
+                }
+
+                if (quizData && (!quizData.scale_questions || !quizData.choice_questions)) {
+                    StorageUtil.remove(StorageKeys.QUIZ_DATA);
+                    quizData = null;
+                }
+
+                if (!quizData) {
+                    try {
+                        const response = await fetch(resolveDeployPath('data/default-quiz.json') + '?v=' + Date.now());
+                        if (response.ok) {
+                            quizData = await response.json();
+                            StorageUtil.set(StorageKeys.QUIZ_DATA, quizData);
+                        }
+                    } catch (e) {
+                        console.warn('加载失败:', e);
+                    }
+                }
+
+                document.getElementById('question-count').textContent =
+                    (quizData && quizData.nbr_question) ? quizData.nbr_question : '30';
+
+                renderCityTypePreview(quizData);
+            } catch (error) {
+                console.error('加载测试数据失败:', error);
+                document.getElementById('question-count').textContent = '30';
+                renderCityTypePreview(null);
+            }
+        }
+
+        function renderCityTypePreview(quizData) {
+            const container = document.getElementById('types-preview');
+            const types = (quizData && quizData.result_types && quizData.result_types.length)
+                ? [...quizData.result_types]
+                : [...DEFAULT_RESULT_TYPES_FALLBACK];
+
+            const cardsHtml = types.map((type) => {
+                const pic = cityTypePreviewPictureHtml(type.type_name);
+                const keywords = (type.keywords || []).map(k => `<span class="city-keyword">${k}</span>`).join('');
+                const desc = (type.short_desc || []).join(' ');
+                return `
+                    <div class="type-card">
+                        <div class="type-card-icon" style="background: #eeedf8; box-shadow: 0 4px 14px rgba(0,0,0,0.07), inset 0 0 0 1px rgba(86,84,184,0.12);">
+                            ${pic}
+                        </div>
+                        <h3>${type.city_type_name}</h3>
+                        <p class="city-type-label">${type.type_name} · ${type.representative_cities || ''}</p>
+                        <div class="city-keywords">${keywords}</div>
+                        <p class="city-short-desc">${desc}</p>
+                    </div>`;
+            }).join('');
+
+            container.innerHTML = `
+                <style>
+                    .types-carousel { position: relative; overflow: hidden; padding: 0 40px; }
+                    .types-track { display: flex; gap: 16px; transition: transform 0.3s ease; }
+                    .type-card {
+                        flex: 0 0 calc(33.333% - 11px);
+                        background: white;
+                        border-radius: 20px;
+                        padding: 24px 18px;
+                        text-align: center;
+                        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+                        border: 1px solid #f0f0f0;
+                    }
+                    .type-card-icon {
+                        width: 100%;
+                        margin: 0 0 12px;
+                        border-radius: 18px;
+                        display: block;
+                        padding: 4px 0;
+                        box-sizing: border-box;
+                    }
+                    .type-card-icon img {
+                        width: 100%;
+                        height: auto;
+                        max-height: 180px;
+                        object-fit: contain;
+                        display: block;
+                        border-radius: 14px;
+                        margin: 0 auto;
+                    }
+                    .type-card h3 { margin: 0 0 6px; font-size: 1.05rem; color: #333; font-weight: 700; }
+                    .city-type-label { margin: 0 0 10px; font-size: 0.8rem; color: #4543a0; font-weight: 600; }
+                    .city-keywords { display: flex; justify-content: center; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+                    .city-keyword {
+                        font-size: 0.72rem;
+                        padding: 3px 10px;
+                        border-radius: 12px;
+                        background: #eeedf8;
+                        color: #4543a0;
+                        font-weight: 600;
+                    }
+                    .city-short-desc {
+                        margin: 0;
+                        font-size: 0.78rem;
+                        color: #666;
+                        line-height: 1.55;
+                        text-align: center;
+                    }
+                    .carousel-btn {
+                        position: absolute; top: 50%; transform: translateY(-50%);
+                        width: 40px; height: 40px; background: white; border: none; border-radius: 50%;
+                        box-shadow: 0 2px 12px rgba(0,0,0,0.15); cursor: pointer;
+                        display: flex; align-items: center; justify-content: center; z-index: 10;
+                    }
+                    .carousel-btn:hover { background: #5654b8; color: white; }
+                    .carousel-btn.prev { left: 0; }
+                    .carousel-btn.next { right: 0; }
+                    .carousel-btn:disabled { opacity: 0.3; cursor: not-allowed; }
+                    .carousel-dots { display: flex; justify-content: center; gap: 8px; margin-top: 20px; }
+                    .carousel-dot {
+                        width: 8px; height: 8px; border-radius: 50%; background: #ddd;
+                        cursor: pointer; transition: all 0.2s ease;
+                    }
+                    .carousel-dot.active { background: #5654b8; width: 24px; border-radius: 4px; }
+                    @media (max-width: 768px) {
+                        .types-carousel { padding: 0 32px; }
+                        .type-card { flex: 0 0 calc(50% - 8px); }
+                    }
+                    @media (max-width: 480px) {
+                        .types-carousel { padding: 0 24px; }
+                        .type-card { flex: 0 0 100%; }
+                    }
+                </style>
+                <div class="types-carousel">
+                    <button class="carousel-btn prev" onclick="moveCarousel(-1)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+                    </button>
+                    <div class="types-track" id="typesTrack">${cardsHtml}</div>
+                    <button class="carousel-btn next" onclick="moveCarousel(1)">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                    </button>
+                </div>
+                <div class="carousel-dots" id="carouselDots"></div>
+            `;
+            initCarousel();
+        }
+
+        let currentSlide = 0;
+        let totalSlides = 0;
+        let itemsPerView = 3;
+
+        function updateItemsPerView() {
+            if (window.innerWidth <= 480) itemsPerView = 1;
+            else if (window.innerWidth <= 768) itemsPerView = 2;
+            else itemsPerView = 3;
+        }
+
+        function initCarousel() {
+            updateItemsPerView();
+            const track = document.getElementById('typesTrack');
+            const dotsContainer = document.getElementById('carouselDots');
+            if (!track || !dotsContainer) return;
+
+            const cards = track.querySelectorAll('.type-card');
+            totalSlides = Math.ceil(cards.length / itemsPerView);
+            currentSlide = 0;
+
+            dotsContainer.innerHTML = '';
+            for (let i = 0; i < totalSlides; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+                dot.onclick = () => goToSlide(i);
+                dotsContainer.appendChild(dot);
+            }
+
+            updateCarousel();
+
+            window.addEventListener('resize', () => {
+                const oldItemsPerView = itemsPerView;
+                updateItemsPerView();
+                if (oldItemsPerView !== itemsPerView) {
+                    totalSlides = Math.ceil(cards.length / itemsPerView);
+                    currentSlide = Math.min(currentSlide, totalSlides - 1);
+                    dotsContainer.innerHTML = '';
+                    for (let i = 0; i < totalSlides; i++) {
+                        const dot = document.createElement('div');
+                        dot.className = 'carousel-dot' + (i === currentSlide ? ' active' : '');
+                        dot.onclick = () => goToSlide(i);
+                        dotsContainer.appendChild(dot);
+                    }
+                    updateCarousel();
+                }
+            });
+        }
+
+        function moveCarousel(direction) {
+            currentSlide += direction;
+            if (currentSlide < 0) currentSlide = 0;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            updateCarousel();
+        }
+
+        function goToSlide(index) {
+            currentSlide = index;
+            updateCarousel();
+        }
+
+        function updateCarousel() {
+            const track = document.getElementById('typesTrack');
+            const prevBtn = document.querySelector('.carousel-btn.prev');
+            const nextBtn = document.querySelector('.carousel-btn.next');
+            const dots = document.querySelectorAll('.carousel-dot');
+            if (!track) return;
+
+            const cardWidth = track.querySelector('.type-card')?.offsetWidth || 0;
+            const gap = 16;
+            const offset = currentSlide * (cardWidth + gap) * itemsPerView;
+            track.style.transform = `translateX(-${offset}px)`;
+
+            if (prevBtn) prevBtn.disabled = currentSlide === 0;
+            if (nextBtn) nextBtn.disabled = currentSlide === totalSlides - 1;
+            dots.forEach((dot, index) => dot.classList.toggle('active', index === currentSlide));
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            applyUIConfig();
+            loadQuizData();
+            preloadPlatformChecks();
+            const startBtn = document.getElementById('start-btn');
+            if (startBtn) {
+                startBtn.href = getDeployPageUrl('quiz.html');
+            }
+        });
+    </script>
+</body>
+</html>

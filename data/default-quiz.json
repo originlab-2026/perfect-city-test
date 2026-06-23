@@ -1,0 +1,218 @@
+{
+  "quiz_id": "perfect-city",
+  "quiz_name": "你最适合居住的城市",
+  "reference": "基于城市心理学与环境行为学中的「人-环境匹配」理论",
+  "nbr_question": 30,
+  "nbr_question_scale": 25,
+  "nbr_question_choice": 5,
+  "nbr_dimension": 5,
+  "gender_enabled": false,
+  "dimensions": [
+    {
+      "dimension_id": "A",
+      "dimension_name": "职业发展心态",
+      "description": "衡量你对职业机会、晋升速度与工作强度的重视程度"
+    },
+    {
+      "dimension_id": "B",
+      "dimension_name": "生活节奏偏好",
+      "description": "衡量你对紧凑充实与松弛慢生活的偏好"
+    },
+    {
+      "dimension_id": "C",
+      "dimension_name": "环境敏感度",
+      "description": "衡量你对空气质量、绿化与自然环境的敏感程度"
+    },
+    {
+      "dimension_id": "D",
+      "dimension_name": "消费与房价承受",
+      "description": "衡量你对生活成本、房价与消费水平的承受能力"
+    },
+    {
+      "dimension_id": "E",
+      "dimension_name": "文化/娱乐需求",
+      "description": "衡量你对文化活动、娱乐丰富度与夜生活的需求"
+    }
+  ],
+  "scale_questions": [
+    { "question_id": "scale_A01", "dimension_id": "A", "question_text": "我愿意为了更高的收入而牺牲一部分个人休息时间。" },
+    { "question_id": "scale_A02", "dimension_id": "A", "question_text": "我认为职业晋升速度是选择城市时最重要的考量因素。" },
+    { "question_id": "scale_A03", "dimension_id": "A", "question_text": "我能接受长期高强度工作，例如996和007，只要回报足够丰厚。" },
+    { "question_id": "scale_A04", "dimension_id": "A", "question_text": "如果一座城市行业发展机会有限，即使环境再好我也不会考虑。" },
+    { "question_id": "scale_A05", "dimension_id": "A", "question_text": "对我来说，工作的稳定性比高薪和快速晋升更有吸引力。", "reverse": true },
+    { "question_id": "scale_B01", "dimension_id": "B", "question_text": "我喜欢生活安排得充实紧凑，闲下来反而会感到焦虑。" },
+    { "question_id": "scale_B02", "dimension_id": "B", "question_text": "我更愿意把周末时间用来学习或社交，而不是纯粹休息。" },
+    { "question_id": "scale_B03", "dimension_id": "B", "question_text": "我无法忍受一座城市「太安逸」，那会让我觉得在虚度光阴。" },
+    { "question_id": "scale_B04", "dimension_id": "B", "question_text": "我认为慢节奏的生活更适合我的性格。" },
+    { "question_id": "scale_B05", "dimension_id": "B", "question_text": "我希望每天都能有不被打扰的、完全属于自己的空闲时间。", "reverse": true },
+    { "question_id": "scale_C01", "dimension_id": "C", "question_text": "空气质量是我选择居住城市时非常看重的因素。" },
+    { "question_id": "scale_C02", "dimension_id": "C", "question_text": "我会因为城市绿化少、公园不足而感到生活质量下降。" },
+    { "question_id": "scale_C03", "dimension_id": "C", "question_text": "噪音和拥挤会明显影响我的情绪和效率。" },
+    { "question_id": "scale_C04", "dimension_id": "C", "question_text": "我愿意为更好的自然环境放弃一部分收入，例如近海、近山、多公园。" },
+    { "question_id": "scale_C05", "dimension_id": "C", "question_text": "对我来说，城市的发展水平比自然环境更重要。", "reverse": true },
+    { "question_id": "scale_D01", "dimension_id": "D", "question_text": "我可以接受用50%以上的月收入支付房租或房贷。" },
+    { "question_id": "scale_D02", "dimension_id": "D", "question_text": "我认为高消费城市对应的高收入足以覆盖生活成本。" },
+    { "question_id": "scale_D03", "dimension_id": "D", "question_text": "我愿意为更丰富的城市资源，例如商业、医疗、教育，而承担更高的生活开销。" },
+    { "question_id": "scale_D04", "dimension_id": "D", "question_text": "如果一座城市房价合理，即使发展一般我也会认真考虑。" },
+    { "question_id": "scale_D05", "dimension_id": "D", "question_text": "低物价和低房价是我选择城市时最重要的条件。", "reverse": true },
+    { "question_id": "scale_E01", "dimension_id": "E", "question_text": "我每周都需要新鲜的娱乐活动，例如看展、演出、聚会等。" },
+    { "question_id": "scale_E02", "dimension_id": "E", "question_text": "如果一座城市缺少独立书店、Livehouse或艺术空间，我会觉得无聊。" },
+    { "question_id": "scale_E03", "dimension_id": "E", "question_text": "我愿意为了一场喜欢的演出或展览专门去另一座城市。" },
+    { "question_id": "scale_E04", "dimension_id": "E", "question_text": "我认为城市的「好玩程度」直接影响我的长期居住意愿。" },
+    { "question_id": "scale_E05", "dimension_id": "E", "question_text": "比起丰富的文化活动，我更看重日常生活的便利和安静。", "reverse": true }
+  ],
+  "choice_questions": [
+    {
+      "question_id": "choice_001",
+      "question_text": "以下哪些因素对你选择城市影响最大？（最多选3项）",
+      "option_a_text": "职业发展和高薪机会",
+      "option_a_dim": "A",
+      "option_b_text": "生活节奏快慢是否合拍",
+      "option_b_dim": "B",
+      "option_c_text": "自然环境和空气质量",
+      "option_c_dim": "C",
+      "option_d_text": "房价和日常消费水平",
+      "option_d_dim": "D",
+      "option_e_text": "文化娱乐活动丰富度",
+      "option_e_dim": "E"
+    },
+    {
+      "question_id": "choice_002",
+      "question_text": "你更希望你的城市具备以下哪些特质？（最多选3项）",
+      "option_a_text": "行业头部公司聚集，跳槽容易",
+      "option_a_dim": "A",
+      "option_b_text": "生活松弛，不用时刻紧绷",
+      "option_b_dim": "B",
+      "option_c_text": "公园多、绿化好、适合散步",
+      "option_c_dim": "C",
+      "option_d_text": "房租友好，存钱容易",
+      "option_d_dim": "D",
+      "option_e_text": "夜生活丰富，周末不无聊",
+      "option_e_dim": "E"
+    },
+    {
+      "question_id": "choice_003",
+      "question_text": "以下哪些场景会让你觉得「来对城市了」？（最多选3项）",
+      "option_a_text": "收到心仪公司的offer，薪资翻倍",
+      "option_a_dim": "A",
+      "option_b_text": "周末睡到自然醒，去咖啡馆坐一下午",
+      "option_b_dim": "B",
+      "option_c_text": "推开窗能看到山或海，空气清新",
+      "option_c_dim": "C",
+      "option_d_text": "发现自己租的房子性价比很高",
+      "option_d_dim": "D",
+      "option_e_text": "随时能约朋友去看展、看演出或吃宵夜",
+      "option_e_dim": "E"
+    },
+    {
+      "question_id": "choice_004",
+      "question_text": "你无法忍受城市的哪些方面？（最多选3项）",
+      "option_a_text": "行业单一，升职加薪困难",
+      "option_a_dim": "A",
+      "option_b_text": "生活节奏太慢，缺乏冲劲",
+      "option_b_dim": "B",
+      "option_c_text": "雾霾严重，几乎没有绿道",
+      "option_c_dim": "C",
+      "option_d_text": "房租和工资不成正比",
+      "option_d_dim": "D",
+      "option_e_text": "晚上8点后街上就没人了",
+      "option_e_dim": "E"
+    },
+    {
+      "question_id": "choice_005",
+      "question_text": "你理想中的「完美一天」更接近以下哪种组合？（最多选3项）",
+      "option_a_text": "白天高效工作拿下项目，晚上学习充电",
+      "option_a_dim": "A",
+      "option_b_text": "不紧不慢完成任务，傍晚和朋友散步聊天",
+      "option_b_dim": "B",
+      "option_c_text": "早起爬山或海边跑步，整天身心舒畅",
+      "option_c_dim": "C",
+      "option_d_text": "算算这个月又存下一笔钱，心里踏实",
+      "option_d_dim": "D",
+      "option_e_text": "晚上去Livehouse或看话剧，兴奋到凌晨",
+      "option_e_dim": "E"
+    }
+  ],
+  "result_types": [
+    {
+      "type_id": "ambitious",
+      "type_name": "奋斗型",
+      "city_type_name": "野心竞技场",
+      "representative_cities": "深圳、上海",
+      "keywords": ["高压高回报", "职业成长"],
+      "short_desc": ["「年轻不拼，更待何时」", "「机会留给不睡觉的人」"],
+      "description": "喜欢高压高回报的环境，享受竞争带来的成就感。认为城市的核心价值是职业机会和个人成长。愿意用996换取更快的晋升和更高的收入，把忙碌当作勋章，无法忍受温水煮青蛙的生活。",
+      "ideal_scores": { "A": 5.5, "B": 4.5, "C": 1.5, "D": 4.0, "E": 2.5 }
+    },
+    {
+      "type_id": "balanced",
+      "type_name": "平衡型",
+      "city_type_name": "理想慢城",
+      "representative_cities": "杭州、成都",
+      "keywords": ["工作生活平衡", "小确幸"],
+      "short_desc": ["「下班后的生活才是人生」", "「赚钱和快乐可以兼得」"],
+      "description": "追求职业发展与生活质量的黄金分割点。不愿意为了工作完全牺牲个人时间，喜欢有山有水、房租适中、外卖好吃、周末能轻松约到朋友的城市。认为幸福来自日常的小确幸，而不是年终奖的数字。",
+      "ideal_scores": { "A": 3.0, "B": 3.0, "C": 3.5, "D": 3.0, "E": 3.5 }
+    },
+    {
+      "type_id": "cultural",
+      "type_name": "文化型",
+      "city_type_name": "文脉栖息地",
+      "representative_cities": "南京、苏州",
+      "keywords": ["历史文艺", "精神角落"],
+      "short_desc": ["「走在街上都是故事」", "「书店和剧场是我的精神角落」"],
+      "description": "对历史建筑、独立书店、艺术展览、音乐现场有强烈需求。认为城市应该像一本可以行走的书，而不是千篇一律的玻璃幕墙。他们愿意为了一场喜欢的演出或一个有趣的市集留在一座城市，对网红打卡点兴趣不大。",
+      "ideal_scores": { "A": 3.0, "B": 2.5, "C": 3.0, "D": 3.0, "E": 5.5 }
+    },
+    {
+      "type_id": "natural",
+      "type_name": "自然型",
+      "city_type_name": "山海治愈所",
+      "representative_cities": "珠海、厦门",
+      "keywords": ["自然环境", "身心健康"],
+      "short_desc": ["「推开窗就是风景」", "「在城市里也能听见风声」"],
+      "description": "极度重视自然环境和身心健康。无法忍受雾霾、噪音和水泥森林。需要公园、绿道、海边或山景来充电。他们愿意用一部分收入换取更好的空气和更低的居住密度，认为「能早起散步的城市才是好城市」。",
+      "ideal_scores": { "A": 2.0, "B": 2.0, "C": 5.5, "D": 3.0, "E": 2.5 }
+    },
+    {
+      "type_id": "social",
+      "type_name": "社交型",
+      "city_type_name": "烟火不夜城",
+      "representative_cities": "长沙、重庆",
+      "keywords": ["烟火气", "夜生活"],
+      "short_desc": ["「夜越深，越有趣」", "「一个人不叫吃饭，叫填饱」"],
+      "description": "热爱美食、宵夜、夜市、路边摊和随时能约出来的朋友。无法忍受晚上8点后街上空无一人的冷清感。认为城市的灵魂是烟火气和人与人之间的热络。他们需要随时能喝酒聊天的地方，对高端商场兴趣不大，但对烧烤摊如数家珍。",
+      "ideal_scores": { "A": 3.0, "B": 4.0, "C": 2.0, "D": 3.0, "E": 5.0 }
+    },
+    {
+      "type_id": "free",
+      "type_name": "自由型",
+      "city_type_name": "流浪者驿站",
+      "representative_cities": "昆明、大理",
+      "keywords": ["来去自由", "体验至上"],
+      "short_desc": ["「别问我待多久」", "「城市是地图，不是牢笼」"],
+      "description": "极度抗拒户口、编制、长期房贷带来的束缚感。喜欢来去自由、对年轻人友好、不排外的城市。他们可能随时因为一个机会或一阵心情换城市生活，需要的是包容而非稳定。对「扎根」这个词感到压力，对「体验」这个词毫无抵抗力。",
+      "ideal_scores": { "A": 2.0, "B": 2.0, "C": 3.5, "D": 4.5, "E": 4.0 }
+    },
+    {
+      "type_id": "family",
+      "type_name": "家庭型",
+      "city_type_name": "安家根据地",
+      "representative_cities": "无锡、佛山",
+      "keywords": ["家庭优先", "安稳扎根"],
+      "short_desc": ["「为了下一代」", "「归属感比机会更重要」"],
+      "description": "以家庭和子女教育为核心考量。关注的是学区质量、医疗资源、房价收入比和社区安全。他们愿意放弃一线城市的高薪，换取一套三居室和一个不那么焦虑的童年。认为城市应该提供「可以留下」的安全感，而不是「值得拼一把」的诱惑。",
+      "ideal_scores": { "A": 3.5, "B": 2.0, "C": 4.0, "D": 4.0, "E": 2.0 }
+    },
+    {
+      "type_id": "exploratory",
+      "type_name": "探索型",
+      "city_type_name": "机遇试验田",
+      "representative_cities": "合肥、武汉",
+      "keywords": ["新兴产业", "跨界可能"],
+      "short_desc": ["「新东西都在这里首发」", "「失败也是一种经历」"],
+      "description": "对新兴产业、小众职业、跨界玩法充满好奇。他们不喜欢被定义，喜欢城市中那些尚未成熟但充满可能性的角落。能接受不稳定的收入，换取接触前沿事物和有趣人群的机会。认为城市的价值在于「能做什么」，而不是「已经有什么」。",
+      "ideal_scores": { "A": 4.5, "B": 3.5, "C": 2.5, "D": 3.5, "E": 4.5 }
+    }
+  ]
+}
