@@ -15,6 +15,8 @@ const StorageKeys = {
 
 const PERFECT_CITY_QUIZ_ID = 'perfect-city';
 const PERFECT_CITY_QUIZ_NAME = '你最适合居住的城市';
+const EXPECTED_SCORING_VERSION = 2;
+const CHOICE_OPTION_LETTERS = new Set(['a', 'b', 'c', 'd', 'e']);
 const STORAGE_NAMESPACE = 'perfect_city_test';
 const LEGACY_STORAGE_KEYS = new Set([
     StorageKeys.QUIZ_DATA,
@@ -30,9 +32,43 @@ const LEGACY_STORAGE_KEYS = new Set([
 
 function isPerfectCityQuizData(quizData) {
     if (!quizData || !quizData.scale_questions || !quizData.choice_questions) return false;
+    if (quizData.scoring_version !== EXPECTED_SCORING_VERSION) return false;
     if (quizData.quiz_id === PERFECT_CITY_QUIZ_ID) return true;
     if (!quizData.quiz_id && quizData.quiz_name === PERFECT_CITY_QUIZ_NAME) return true;
     return false;
+}
+
+function normalizeChoiceAnswerValue(raw) {
+    if (raw === undefined || raw === null) return null;
+    let arr = raw;
+    if (typeof arr === 'string' && arr.trim().length) {
+        arr = [arr];
+    }
+    if (!Array.isArray(arr)) return null;
+    const cleaned = [...new Set(
+        arr
+            .map(v => (typeof v === 'string' ? v.trim().toLowerCase() : ''))
+            .filter(v => CHOICE_OPTION_LETTERS.has(v))
+    )];
+    return cleaned.length > 0 ? cleaned : null;
+}
+
+function getMissingAnswerIds(quizData, answers) {
+    if (!quizData || !answers || typeof answers !== 'object') return [];
+    const missing = [];
+    (quizData.scale_questions || []).forEach(q => {
+        const v = answers[q.question_id];
+        const n = Number(v);
+        if (v === undefined || v === null || Number.isNaN(n) || n < 1 || n > 5) {
+            missing.push(q.question_id);
+        }
+    });
+    (quizData.choice_questions || []).forEach(q => {
+        if (normalizeChoiceAnswerValue(answers[q.question_id]) === null) {
+            missing.push(q.question_id);
+        }
+    });
+    return missing;
 }
 
 function pruneUserAnswersForQuiz(answers, quizData) {
@@ -184,6 +220,7 @@ if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
         StorageKeys, StorageUtil, QuizValidator, Utils, DefaultUIConfig,
         getUIConfig, applyUIConfig, PERFECT_CITY_QUIZ_ID, PERFECT_CITY_QUIZ_NAME,
-        isPerfectCityQuizData, pruneUserAnswersForQuiz
+        isPerfectCityQuizData, pruneUserAnswersForQuiz,
+        normalizeChoiceAnswerValue, getMissingAnswerIds, EXPECTED_SCORING_VERSION
     };
 }
