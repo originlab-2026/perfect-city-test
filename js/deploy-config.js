@@ -604,6 +604,50 @@ function isPaywallEnabled() {
     }
 }
 
+/**
+ * 支付归因上报（解锁成功后调用；失败静默，不挡解锁）
+ * 部署 Worker 后把 URL 换成实际 workers.dev 地址；token 须与 Worker secret 一致。
+ */
+const PAYMENT_EVENTS_URL = 'https://payment-events.originlab-2026.workers.dev/api/payment-events';
+const PAYMENT_EVENTS_TOKEN = 'pe_v1_8f3a9c2e1b47d6e0';
+
+function reportPaymentEvent(payload) {
+    try {
+        const url = String(PAYMENT_EVENTS_URL || '').trim();
+        const token = String(PAYMENT_EVENTS_TOKEN || '').trim();
+        if (!url || !token || url.includes('YOUR_')) return;
+
+        const orderRaw = String(payload.orderNumber || payload.orderTail || '').replace(/\D/g, '');
+        const orderTail = orderRaw.slice(-6);
+        if (orderTail.length < 4) return;
+
+        const body = {
+            quizId: DEPLOY_CONFIG.projectId,
+            resultType: String(payload.resultType || '').trim().slice(0, 120),
+            orderTail,
+            channel: payload.channel === 'alipay' ? 'alipay' : 'wechat',
+            paidAt: payload.paidAt || new Date().toISOString(),
+            ua: (typeof navigator !== 'undefined' && navigator.userAgent)
+                ? String(navigator.userAgent).slice(0, 200)
+                : ''
+        };
+
+        fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`,
+                'X-Payment-Events-Token': token
+            },
+            body: JSON.stringify(body),
+            keepalive: true,
+            mode: 'cors'
+        }).catch(() => {});
+    } catch (e) {
+        /* ignore */
+    }
+}
+
 if (typeof window !== 'undefined') {
     captureFreeModeFromUrl();
 }

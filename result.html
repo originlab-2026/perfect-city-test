@@ -1519,10 +1519,15 @@
                 return;
             }
             // 记录单号和时间
+            const paidAt = new Date().toISOString();
             StorageUtil.set(StorageKeys.PAYMENT_ORDER_NUMBER, input);
-            StorageUtil.set(StorageKeys.PAYMENT_TIME, new Date().toISOString());
+            StorageUtil.set(StorageKeys.PAYMENT_TIME, paidAt);
             usedOrders.push(input);
             StorageUtil.set(StorageKeys.USED_ORDER_NUMBERS, usedOrders);
+            const channel = document.querySelector('.qrcode-tab.active')?.dataset?.tab === 'alipay'
+                ? 'alipay'
+                : 'wechat';
+            window.__paymentEventPending = { orderNumber: input, channel, paidAt };
             // 解锁结果
             unlockResults();
         }
@@ -1582,6 +1587,19 @@
 
             // 计算结果
             calculateResults();
+
+            if (window.__paymentEventPending && typeof reportPaymentEvent === 'function') {
+                const pending = window.__paymentEventPending;
+                window.__paymentEventPending = null;
+                const persona = typeof getPersonaInfo === 'function' ? getPersonaInfo() : null;
+                const resultType = (persona && (persona.displayName || persona.city_type_name || persona.type_name)) || '';
+                reportPaymentEvent({
+                    orderNumber: pending.orderNumber,
+                    channel: pending.channel,
+                    paidAt: pending.paidAt,
+                    resultType
+                });
+            }
 
             // 优先渲染类型展示（用户最关注的内容）
             requestAnimationFrame(() => {
