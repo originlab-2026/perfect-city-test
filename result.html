@@ -1596,6 +1596,9 @@
                     paidAt: pending.paidAt,
                     resultType
                 });
+                if (pending.reportedKey) {
+                    try { sessionStorage.setItem(pending.reportedKey, '1'); } catch (e) { /* ignore */ }
+                }
             }
 
             // 优先渲染类型展示（用户最关注的内容）
@@ -1671,15 +1674,16 @@
                 }
 
                 // 平台商品渠道（?free=1 入口，标记已写入 sessionStorage）
+                // 注意：不要在这里提前写「已上报」——若结果页尚无答案会跳回测验，导致以后再也不报。
                 if (!isPaywallEnabled()) {
                     try {
                         const reportedKey = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
                         if (sessionStorage.getItem(reportedKey) !== '1') {
-                            sessionStorage.setItem(reportedKey, '1');
                             window.__paymentEventPending = {
                                 orderNumber: '',
                                 channel: 'promo',
-                                paidAt: new Date().toISOString()
+                                paidAt: new Date().toISOString(),
+                                reportedKey
                             };
                         }
                     } catch (e) { /* ignore */ }
