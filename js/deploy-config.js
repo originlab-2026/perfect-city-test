@@ -617,15 +617,21 @@ function reportPaymentEvent(payload) {
         const token = String(PAYMENT_EVENTS_TOKEN || '').trim();
         if (!url || !token || url.includes('YOUR_')) return;
 
-        const orderRaw = String(payload.orderNumber || payload.orderTail || '').replace(/\D/g, '');
-        const orderTail = orderRaw.slice(-6);
-        if (orderTail.length < 4) return;
+        const channel = payload.channel === 'promo' ? 'promo' : 'paywall';
+        let orderTail;
+        if (channel === 'promo') {
+            orderTail = 'promo';
+        } else {
+            const orderRaw = String(payload.orderNumber || payload.orderTail || '').replace(/\D/g, '');
+            orderTail = orderRaw.slice(-6);
+            if (orderTail.length < 4) return;
+        }
 
         const body = {
             quizId: DEPLOY_CONFIG.projectId,
             resultType: String(payload.resultType || '').trim().slice(0, 120),
             orderTail,
-            channel: payload.channel === 'alipay' ? 'alipay' : 'wechat',
+            channel,
             paidAt: payload.paidAt || new Date().toISOString(),
             ua: (typeof navigator !== 'undefined' && navigator.userAgent)
                 ? String(navigator.userAgent).slice(0, 200)

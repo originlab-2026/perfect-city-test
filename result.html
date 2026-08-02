@@ -1524,10 +1524,7 @@
             StorageUtil.set(StorageKeys.PAYMENT_TIME, paidAt);
             usedOrders.push(input);
             StorageUtil.set(StorageKeys.USED_ORDER_NUMBERS, usedOrders);
-            const channel = document.querySelector('.qrcode-tab.active')?.dataset?.tab === 'alipay'
-                ? 'alipay'
-                : 'wechat';
-            window.__paymentEventPending = { orderNumber: input, channel, paidAt };
+            window.__paymentEventPending = { orderNumber: input, channel: 'paywall', paidAt };
             // 解锁结果
             unlockResults();
         }
@@ -1673,8 +1670,19 @@
                     return;
                 }
 
-                // 免费渠道（?free=1 入口，标记已写入 sessionStorage）
+                // 平台商品渠道（?free=1 入口，标记已写入 sessionStorage）
                 if (!isPaywallEnabled()) {
+                    try {
+                        const reportedKey = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
+                        if (sessionStorage.getItem(reportedKey) !== '1') {
+                            sessionStorage.setItem(reportedKey, '1');
+                            window.__paymentEventPending = {
+                                orderNumber: '',
+                                channel: 'promo',
+                                paidAt: new Date().toISOString()
+                            };
+                        }
+                    } catch (e) { /* ignore */ }
                     document.getElementById('result-main-content').style.display = 'block';
                     initializeResults();
                     return;
