@@ -1582,6 +1582,21 @@
                 return;
             }
 
+            // 平台商品：确认有答案后再挂起上报（避免空结果页提前占坑）
+            if (typeof isPaywallEnabled === 'function' && !isPaywallEnabled() && !window.__paymentEventPending) {
+                try {
+                    const reportedKey = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
+                    if (sessionStorage.getItem(reportedKey) !== '1') {
+                        window.__paymentEventPending = {
+                            orderNumber: '',
+                            channel: 'promo',
+                            paidAt: new Date().toISOString(),
+                            reportedKey
+                        };
+                    }
+                } catch (e) { /* ignore */ }
+            }
+
             // 计算结果
             calculateResults();
 
