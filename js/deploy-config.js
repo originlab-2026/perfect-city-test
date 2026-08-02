@@ -613,9 +613,17 @@ const PAYMENT_EVENTS_TOKEN = 'pe_v1_8f3a9c2e1b47d6e0';
 
 function reportPaymentEvent(payload) {
     try {
+        // #region agent log
+        fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'B,E',location:'deploy-config.js:reportPaymentEvent:entry',message:'reportPaymentEvent called',data:{quizId:DEPLOY_CONFIG.projectId,channel:payload&&payload.channel,hasOrder:!!(payload&&payload.orderNumber),orderLen:String((payload&&payload.orderNumber)||'').length,resultType:String((payload&&payload.resultType)||'').slice(0,40),href:typeof location!=='undefined'?location.href:''},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
         const url = String(PAYMENT_EVENTS_URL || '').trim();
         const token = String(PAYMENT_EVENTS_TOKEN || '').trim();
-        if (!url || !token || url.includes('YOUR_')) return;
+        if (!url || !token || url.includes('YOUR_')) {
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'B',location:'deploy-config.js:reportPaymentEvent:noUrl',message:'missing url/token',data:{hasUrl:!!url,hasToken:!!token},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+            return;
+        }
 
         const channel = payload.channel === 'promo' ? 'promo' : 'paywall';
         let orderTail;
@@ -624,7 +632,12 @@ function reportPaymentEvent(payload) {
         } else {
             const orderRaw = String(payload.orderNumber || payload.orderTail || '').replace(/\D/g, '');
             orderTail = orderRaw.slice(-6);
-            if (orderTail.length < 4) return;
+            if (orderTail.length < 4) {
+                // #region agent log
+                fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'B',location:'deploy-config.js:reportPaymentEvent:shortTail',message:'orderTail too short',data:{orderTailLen:orderTail.length,orderRawLen:orderRaw.length},timestamp:Date.now()})}).catch(()=>{});
+                // #endregion
+                return;
+            }
         }
 
         const body = {
@@ -638,12 +651,16 @@ function reportPaymentEvent(payload) {
                 : ''
         };
         const bodyStr = JSON.stringify(body);
+        // #region agent log
+        fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'C,D,E',location:'deploy-config.js:reportPaymentEvent:sending',message:'about to send',data:{channel:body.channel,orderTail:body.orderTail,quizId:body.quizId,resultType:body.resultType},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
 
         // sendBeacon：部分内置浏览器（如小红书）对带 Authorization 的 fetch 不友好
+        let beaconOk = false;
         try {
             if (typeof navigator !== 'undefined' && typeof navigator.sendBeacon === 'function') {
                 const beaconUrl = url + (url.indexOf('?') >= 0 ? '&' : '?') + 'token=' + encodeURIComponent(token);
-                navigator.sendBeacon(beaconUrl, new Blob([bodyStr], { type: 'application/json' }));
+                beaconOk = !!navigator.sendBeacon(beaconUrl, new Blob([bodyStr], { type: 'application/json' }));
             }
         } catch (e) {
             /* ignore */
@@ -659,9 +676,19 @@ function reportPaymentEvent(payload) {
             body: bodyStr,
             keepalive: true,
             mode: 'cors'
-        }).catch(() => {});
+        }).then((res) => {
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'C,D',location:'deploy-config.js:reportPaymentEvent:fetchDone',message:'fetch completed',data:{status:res.status,ok:res.ok,beaconOk,channel},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+        }).catch((err) => {
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'C',location:'deploy-config.js:reportPaymentEvent:fetchErr',message:'fetch failed',data:{err:String(err&&err.message||err),beaconOk,channel},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+        });
     } catch (e) {
-        /* ignore */
+        // #region agent log
+        fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'916d8f'},body:JSON.stringify({sessionId:'916d8f',hypothesisId:'B',location:'deploy-config.js:reportPaymentEvent:throw',message:'exception',data:{err:String(e&&e.message||e)},timestamp:Date.now()})}).catch(()=>{});
+        // #endregion
     }
 }
 
