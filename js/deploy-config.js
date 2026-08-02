@@ -605,6 +605,23 @@ function isPaywallEnabled() {
     }
 }
 
+/** 平台商品去重键：按本次答案内容区分，刷新同结果不重复报，重新作答可再报 */
+function getPromoReportedStorageKey(answers) {
+    const base = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
+    try {
+        const raw = JSON.stringify(answers || {});
+        let h = 0;
+        for (let i = 0; i < raw.length; i++) {
+            h = ((h << 5) - h) + raw.charCodeAt(i);
+            h |= 0;
+        }
+        return base + ':' + String(h);
+    } catch (e) {
+        return base;
+    }
+}
+
+
 /**
  * 支付归因上报（付费墙解锁 / 平台商品出结果后调用；失败静默）
  */

@@ -408,15 +408,14 @@
         const ASSET_IMAGE_VERSION = '6';
 
         function getPersonaImageSrc(persona) {
-            const name = persona && (persona.displayName || persona.city_type_name)
-                ? String(persona.displayName || persona.city_type_name).trim() : '';
+            // 人设图文件按 type_name 命名（奋斗型.png），不是 city_type_name（野心竞技场）
+            const name = persona && persona.type_name ? String(persona.type_name).trim() : '';
             if (!name) return '';
             return 'assets/persona/' + encodeURIComponent(name) + '.png?v=' + ASSET_IMAGE_VERSION;
         }
 
         function getPersonaImageWebpSrc(persona) {
-            const name = persona && (persona.displayName || persona.city_type_name)
-                ? String(persona.displayName || persona.city_type_name).trim() : '';
+            const name = persona && persona.type_name ? String(persona.type_name).trim() : '';
             if (!name) return '';
             return 'assets/persona/' + encodeURIComponent(name) + '.webp?v=' + ASSET_IMAGE_VERSION;
         }
@@ -621,13 +620,16 @@
             
             const pngPath = getPersonaImageSrc(currentPersona);
             const webpPath = getPersonaImageWebpSrc(currentPersona);
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'post-fix',hypothesisId:'A',location:'result.html:renderPersona',message:'renderPersona image paths',data:{pngPath,webpPath,type_name:currentPersona&&currentPersona.type_name,displayName:currentPersona&&currentPersona.displayName},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
             
             container.innerHTML = `
                 <div class="persona-container">
                     <div class="persona-image-wrapper">
                         <picture>
                             <source type="image/webp" srcset="${webpPath}">
-                            <img src="${pngPath}" alt="${currentPersona.displayName || currentPersona.type_name}" class="persona-image" loading="eager" fetchpriority="high" decoding="async" onerror="(function(img){var w=img.closest('.persona-image-wrapper');if(w){var f=w.querySelector('.persona-fallback');if(f)f.style.display='flex';var p=img.closest('picture');if(p)p.style.display='none';}})(this)">
+                            <img src="${pngPath}" alt="${currentPersona.displayName || currentPersona.type_name}" class="persona-image" loading="eager" fetchpriority="high" decoding="async" onerror="(function(img){fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'post-fix',hypothesisId:'A',location:'result.html:persona-img-onerror',message:'persona image load failed',data:{src:img&&img.currentSrc||img&&img.src},timestamp:Date.now()})}).catch(function(){});var w=img.closest('.persona-image-wrapper');if(w){var f=w.querySelector('.persona-fallback');if(f)f.style.display='flex';var p=img.closest('picture');if(p)p.style.display='none';}})(this)">
                         </picture>
                         <div class="persona-fallback" style="display: none; font-size: 4rem; text-align: center; line-height: 1.2;">
                             <div style="font-size: 2.5rem; font-weight: 800; color: white; text-shadow: 0 2px 10px rgba(0,0,0,0.15);">${currentPersona.displayName || currentPersona.type_name}</div>
@@ -1337,14 +1339,21 @@
 
         // 生成海报
         async function generatePoster() {
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'pre-fix',hypothesisId:'B',location:'result.html:generatePoster:entry',message:'generatePoster called',data:{hasCurrentPersona:!!currentPersona},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+            try {
             const persona = currentPersona || getPersonaInfo();
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'pre-fix',hypothesisId:'C',location:'result.html:generatePoster:persona',message:'persona for poster',data:{hasPersona:!!persona,type_name:persona&&persona.type_name,displayName:persona&&persona.displayName,keywordsLen:(persona&&persona.keywords||[]).length},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
             
             // 设置类型展示 - 渐变占位
             const imageContainer = document.getElementById('poster-persona-image');
             const posterPersonaSrc = getPersonaImageSrc(persona);
             const posterPersonaWebp = getPersonaImageWebpSrc(persona);
             imageContainer.innerHTML = posterPersonaSrc
-                ? `<div style="padding: 12px 16px 0; text-align: center;"><picture><source type="image/webp" srcset="${posterPersonaWebp}"><img src="${posterPersonaSrc}" alt="" crossorigin="anonymous" style="max-height: 220px; width: auto; max-width: 100%; object-fit: contain; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,0.18);" /></picture></div>`
+                ? `<div style="padding: 12px 16px 0; text-align: center;"><picture><source type="image/webp" srcset="${posterPersonaWebp}"><img src="${posterPersonaSrc}" alt="" crossorigin="anonymous" style="max-height: 220px; width: auto; max-width: 100%; object-fit: contain; border-radius: 16px; box-shadow: 0 8px 28px rgba(0,0,0,0.18);" onerror="fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'post-fix',hypothesisId:'A',location:'result.html:poster-img-onerror',message:'poster image load failed',data:{src:this.currentSrc||this.src},timestamp:Date.now()})}).catch(function(){})" /></picture></div>`
                 : `<div style="padding: 20px; text-align: center;"><div style="font-size: 2rem; font-weight: 800; text-shadow: 0 2px 8px rgba(0,0,0,0.15);">${persona.displayName || persona.type_name}</div></div>`;
             
             // 设置类型名称
@@ -1367,6 +1376,9 @@
             
             // 生成并设置二维码（异步）
             const posterQrUrl = await getQrCodeShareUrl();
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'pre-fix',hypothesisId:'B',location:'result.html:generatePoster:qr',message:'qr url resolved',data:{posterQrUrl:String(posterQrUrl||'').slice(0,120)},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
             const qrCodeDataUrl = await generateQRCodeDataURL(posterQrUrl, QR_CONFIG.posterSize);
             const qrCodeContainer = document.getElementById('poster-qrcode');
             if (qrCodeDataUrl) {
@@ -1377,7 +1389,17 @@
                 qrCodeContainer.innerHTML = '<p style="font-size: 11px; color: white;">二维码加载失败</p>';
             }
             
-            document.getElementById('poster-modal').classList.add('active');
+            const modal = document.getElementById('poster-modal');
+            modal.classList.add('active');
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'pre-fix',hypothesisId:'D',location:'result.html:generatePoster:modal',message:'modal activated',data:{hasActive:modal.classList.contains('active'),posterSrc:posterPersonaSrc},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+            } catch (err) {
+            // #region agent log
+            fetch('http://127.0.0.1:7706/ingest/59075f42-ddc0-486b-8e2e-d301fc6ccd9e',{method:'POST',headers:{'Content-Type':'application/json','X-Debug-Session-Id':'8b06db'},body:JSON.stringify({sessionId:'8b06db',runId:'pre-fix',hypothesisId:'B',location:'result.html:generatePoster:catch',message:'generatePoster threw',data:{error:String(err&&err.message||err),stack:String(err&&err.stack||'').slice(0,300)},timestamp:Date.now()})}).catch(()=>{});
+            // #endregion
+            throw err;
+            }
         }
 
         // 下载海报
@@ -1582,10 +1604,13 @@
                 return;
             }
 
-            // 平台商品：确认有答案后再挂起上报（避免空结果页提前占坑）
+
+            // 平台商品：确认有答案后再挂起上报（按答案指纹去重，同会话可多次作答多次上报）
             if (typeof isPaywallEnabled === 'function' && !isPaywallEnabled() && !window.__paymentEventPending) {
                 try {
-                    const reportedKey = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
+                    const reportedKey = typeof getPromoReportedStorageKey === 'function'
+                        ? getPromoReportedStorageKey(answers)
+                        : String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
                     if (sessionStorage.getItem(reportedKey) !== '1') {
                         window.__paymentEventPending = {
                             orderNumber: '',
@@ -1596,6 +1621,7 @@
                     }
                 } catch (e) { /* ignore */ }
             }
+
 
             // 计算结果
             calculateResults();
@@ -1688,20 +1714,8 @@
                     return;
                 }
 
-                // 平台商品渠道（?free=1 入口，标记已写入 sessionStorage）
-                // 注意：不要在这里提前写「已上报」——若结果页尚无答案会跳回测验，导致以后再也不报。
+                // 平台商品渠道（?free=1）：此处只展示结果；上报挂起改在 initializeResults（按答案指纹去重）
                 if (!isPaywallEnabled()) {
-                    try {
-                        const reportedKey = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
-                        if (sessionStorage.getItem(reportedKey) !== '1') {
-                            window.__paymentEventPending = {
-                                orderNumber: '',
-                                channel: 'promo',
-                                paidAt: new Date().toISOString(),
-                                reportedKey
-                            };
-                        }
-                    } catch (e) { /* ignore */ }
                     document.getElementById('result-main-content').style.display = 'block';
                     initializeResults();
                     return;
