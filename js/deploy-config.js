@@ -622,6 +622,23 @@ function getPromoReportedStorageKey(answers) {
 }
 
 
+/** 开始新一轮测验时清掉平台商品上报去重（同会话可反复测） */
+function clearPromoReportedFlags() {
+    try {
+        const prefix = String(FREE_MODE_STORAGE_KEY).replace(/_free_mode$/, '_payment_event_reported');
+        const keys = [];
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const k = sessionStorage.key(i);
+            if (k && (k === prefix || k.indexOf(prefix + ':') === 0)) keys.push(k);
+        }
+        keys.forEach((k) => sessionStorage.removeItem(k));
+    } catch (e) {
+        /* ignore */
+    }
+}
+
+
+
 /**
  * 支付归因上报（付费墙解锁 / 平台商品出结果后调用；失败静默）
  */
@@ -684,6 +701,13 @@ function reportPaymentEvent(payload) {
 
 if (typeof window !== 'undefined') {
     captureFreeModeFromUrl();
+    try {
+        const path = String(window.location.pathname || '');
+        if (/quiz/i.test(path) && typeof isPaywallEnabled === 'function' && !isPaywallEnabled()
+            && typeof clearPromoReportedFlags === 'function') {
+            clearPromoReportedFlags();
+        }
+    } catch (e) { /* ignore */ }
 }
 
 if (typeof module !== 'undefined' && module.exports) {
