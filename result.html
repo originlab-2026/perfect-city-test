@@ -420,17 +420,6 @@
             return 'assets/persona/' + encodeURIComponent(name) + '.webp?v=' + ASSET_IMAGE_VERSION;
         }
 
-        function getDimensionImageSrc(dimensionFullName) {
-            const n = dimensionFullName ? String(dimensionFullName).trim() : '';
-            if (!n) return '';
-            return 'assets/dimension/' + encodeURIComponent(n) + '.png?v=' + ASSET_IMAGE_VERSION;
-        }
-
-        function getDimensionImageWebpSrc(dimensionFullName) {
-            const n = dimensionFullName ? String(dimensionFullName).trim() : '';
-            if (!n) return '';
-            return 'assets/dimension/' + encodeURIComponent(n) + '.webp?v=' + ASSET_IMAGE_VERSION;
-        }
 
         // 计算结果
         function calculateResults() {
@@ -871,18 +860,12 @@
                 const dim = dimensionScores[key];
                 const isTop = index === 0;
                 const dimLabel = DIMENSION_NAMES[key] || dim.name;
-                const dimPng = getDimensionImageSrc(dim.name);
-                const dimWebp = getDimensionImageWebpSrc(dim.name);
                 return `
                     <div class="dimension-card" style="${isTop ? 'border-left-width: 6px; background: linear-gradient(to right, #eeedf8, #fff);' : ''}">
                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
                             <div style="display: flex; align-items: center; gap: 12px;">
-                                <div style="position: relative; width: 48px; height: 48px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg, #5654b8, #7a78c9); display: flex; align-items: center; justify-content: center;">
-                                    <span style="position: absolute; color: white; font-weight: 700; font-size: 1.2rem;">${key}</span>
-                                    <picture style="position: relative; z-index: 1; width: 48px; height: 48px;">
-                                        <source type="image/webp" srcset="${dimWebp}">
-                                        <img src="${dimPng}" alt="" width="48" height="48" style="width: 48px; height: 48px; object-fit: cover;" loading="lazy" decoding="async" onerror="this.style.display='none'">
-                                    </picture>
+                                <div style="width: 48px; height: 48px; border-radius: 12px; overflow: hidden; flex-shrink: 0; background: linear-gradient(135deg, #5654b8, #7a78c9); display: flex; align-items: center; justify-content: center;">
+                                    <span style="color: white; font-weight: 700; font-size: 1.2rem;">${key}</span>
                                 </div>
                                 <h3 style="margin: 0; ${isTop ? 'font-size: 1.3rem; color: #4543a0;' : ''}">${dimLabel}</h3>
                             </div>
@@ -1150,7 +1133,6 @@
                                         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 3px;">
                                             <div style="display: flex; align-items: center; gap: 5px;">
                                                 <span style="background: ${rankColor}; color: white; width: 16px; height: 16px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 8px; font-weight: 700; flex-shrink: 0;">${idx + 1}</span>
-                                                ${getDimensionImageSrc(dim.name) ? `<picture><source type="image/webp" srcset="${getDimensionImageWebpSrc(dim.name)}"><img src="${getDimensionImageSrc(dim.name)}" alt="" width="16" height="16" style="width: 16px; height: 16px; object-fit: cover; border-radius: 4px; flex-shrink: 0;" crossorigin="anonymous" /></picture>` : ''}
                                                 <span style="font-size: 10px; font-weight: ${isTop || isSecond ? '700' : '600'}; color: ${isTop ? '#4543a0' : isSecond ? '#5654b8' : '#333'}; white-space: nowrap;">${dim.name}</span>
                                             </div>
                                             <span style="font-size: 11px; font-weight: 700; color: ${isTop ? '#4543a0' : isSecond ? '#5654b8' : '#666'}; flex-shrink: 0;">${Math.round(dim.percentage * 100)}%</span>
